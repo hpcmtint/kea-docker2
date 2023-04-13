@@ -5,7 +5,7 @@
 # TODO: - running Kea control agent (exposes REST API over http)
 # - open source hooks
 
-FROM alpine:3.15
+FROM alpine:3.17
 LABEL org.opencontainers.image.authors="Kea Developers <kea-dev@lists.isc.org>"
 
 # Add Kea packages from cloudsmith. Make sure the version matches that of the Alpine version.
