@@ -1,0 +1,29 @@
+image: registry.gitlab.isc.org/isc-projects/kea-docker:latest
+
+variables:
+  # Disables TLS for communication with docker.
+  DOCKER_TLS_CERTDIR:
+
+services:
+  # This service runs the docker server.
+  - docker:dind
+
+.show-environment:
+  before_script:
+    - whoami
+    - cat /etc/os-release
+    - docker --version
+    - docker-compose --version
+
+build and run:
+  extends: .show-environment
+  script:
+    # Build the image.
+    - docker build -f docker/kea-dhcp4.Dockerfile -t kea-dhcp4 .
+    # Run the container.
+    - docker run -d --name kea-dhcp4 kea-dhcp4
+    # Check that something was logged.
+    - sleep 1
+    - docker logs kea-dhcp4 | grep DHCP4_STARTING
+    # Clean up, while also checking that the container can be stopped, I guess.
+    - docker stop kea-dhcp4
