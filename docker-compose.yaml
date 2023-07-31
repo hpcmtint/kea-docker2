@@ -1,0 +1,17 @@
+services:
+  kea-ctrl-agent:
+    build: ./kea-ctrl-agent
+    ports:
+      - 8000:8000/tcp
+    volumes:
+      - running:/run/kea
+    network_mode: host
+  kea-dhcp4:
+    build: ./kea-dhcp4
+    ports:
+      - 67:67/udp
+    volumes:
+      - running:/run/kea
+    network_mode: host
+volumes:
+  running:

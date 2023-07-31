@@ -21,7 +21,7 @@ You need to have Docker installed. The image can be built using the following
 command:
 
 ```shell
-docker build - < docker/kea-dhcp4.Dockerfile
+docker build - < kea-dhcp4/Dockerfile
 ```
 
 This will end up with something like the following:
@@ -43,6 +43,20 @@ Now you can run this image:
 
 ```shell
 docker run <image-id>
+```
+
+# Running multiple services together.
+
+`kea-dhcp4` and `kea-ctrl-agent` services can be used together. Their images can be be built with command:
+
+```shell
+docker compose build
+```
+
+Both containers can then be run with:
+
+```shell
+docker compose up
 ```
 
 ## Support
