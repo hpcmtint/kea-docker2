@@ -1,8 +1,7 @@
-* 1 [build]
+* 1 [build] tomek
 
     Migrated to Alpine 3.17
-    (Docker#1)
-
+    (Gitlab #1)
 
 For complete code revision history, see
     http://gitlab.isc.org/isc-projects/kea-docker
