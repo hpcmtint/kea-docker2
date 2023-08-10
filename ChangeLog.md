@@ -1,3 +1,8 @@
+* 2 [build] andrei
+
+    Added Gitlab CI pipeline.
+    (Gitlab #2)
+
 * 1 [build] tomek
 
     Migrated to Alpine 3.17
