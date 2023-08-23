@@ -24,6 +24,26 @@ command:
 docker build - < docker/kea-dhcp4.Dockerfile
 ```
 
+If user wants to install specific Kea version, not the onde defined
+in dockerfile build argument `VERSION` is required
+
+```shell
+docker build --build-arg VERSION=2.3.8-r20230530063557 - < docker/kea-dhcp4.Dockerfile
+```
+
+If a user has access to premium packages, it should be added during the build process:
+
+```shell
+docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> - < docker/kea-dhcp4.Dockerfile
+```
+
+If provided token grants access to subcribers or enterprise packages it should be specified:
+
+```shell
+docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> --build-arg PREMIUM=ENTERPRISE - < docker/kea-dhcp4.Dockerfile
+```
+
+
 This will end up with something like the following:
 
 ```shell
@@ -38,11 +58,17 @@ At the very least, you should tweak the following:
   classes and much more) to `/etc/kea/kea-dhcp4.conf`.
 - configure TLS
 - possibly configure leases, host, and/or config backends to point to specific databases
+- IP address on which Control Agent will listen to the traffic
 
-Now you can run this image:
+Using supervisor it's possible to start dhcp and control agent in the same container:
 
 ```shell
-docker run <image-id>
+sudo docker run --volume=./config/kea:/etc/kea  \
+                --volume=./:/var/lib/kea  \
+                --volume=./supervisord.conf:/etc/supervisor/supervisord.conf \
+                --volume=./config/supervisor/kea-dhcp4.conf:/etc/supervisor/conf.d/kea-dhcp4.conf \
+                --volume=./config/supervisor/kea-agent.conf:/etc/supervisor/conf.d/kea-agent.conf \
+                -p host_ip:host_port:container_port <image-id>
 ```
 
 ## Support

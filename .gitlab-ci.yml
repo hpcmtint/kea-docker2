@@ -19,11 +19,28 @@ build and run:
   extends: .show-environment
   script:
     # Build the image.
-    - docker build -f docker/kea-dhcp4.Dockerfile -t kea-dhcp4 .
-    # Run the container.
-    - docker run -d --name kea-dhcp4 kea-dhcp4
+    - docker build - < docker/kea-dhcp4.Dockerfile -t kea-dhcp4
+    # Run the dhcp4 container
+    - docker run --volume="$(pwd)/config/kea:/etc/kea" --volume="$(pwd)/supervisord.conf:/etc/supervisor/supervisord.conf" --volume="$(pwd)/config/supervisor/kea-dhcp4.conf:/etc/supervisor/conf.d/kea-dhcp4.conf" --volume="$(pwd)/config/supervisor/kea-agent.conf:/etc/supervisor/conf.d/kea-agent.conf" --volume="$(pwd)/:/var/lib/kea" -d --name kea-dhcp4 kea-dhcp4
     # Check that something was logged.
-    - sleep 1
-    - docker logs kea-dhcp4 | grep DHCP4_STARTING
+    - sleep 3
+    - docker logs kea-dhcp4 | grep "kea-agent entered RUNNING state"
+    - docker logs kea-dhcp4 | grep "kea-dhcp4 entered RUNNING state"
+    # dhcp6
+    - docker build - < docker/kea-dhcp6.Dockerfile -t kea-dhcp6
+    # Run the dhcp6 container
+    - docker run --volume="$(pwd)/config/kea:/etc/kea" --volume="$(pwd)/supervisord.conf:/etc/supervisor/supervisord.conf" --volume="$(pwd)/config/supervisor/kea-dhcp6.conf:/etc/supervisor/conf.d/kea-dhcp6.conf" --volume="$(pwd)/config/supervisor/kea-agent.conf:/etc/supervisor/conf.d/kea-agent.conf" --volume="$(pwd)/:/var/lib/kea" -d --name kea-dhcp6 kea-dhcp6
+    # Check that something was logged.
+    - sleep 3
+    - docker logs kea-dhcp6 | grep "kea-agent entered RUNNING state"
+    - docker logs kea-dhcp6 | grep "kea-dhcp6 entered RUNNING state"
     # Clean up, while also checking that the container can be stopped, I guess.
     - docker stop kea-dhcp4
+    - docker stop kea-dhcp6
+
+hadolint:
+  allow_failure: true
+  extends: .show-environment
+  script:
+    - docker run --rm -i hadolint/hadolint < docker/kea-dhcp4.Dockerfile
+    - docker run --rm -i hadolint/hadolint < docker/kea-dhcp6.Dockerfile

@@ -1,3 +1,10 @@
+* 3 [build] Wlodek
+
+    Added dhcp4 and dhcp6 Dockerfiles each with Control
+    Agent started with supervisor. Premium code can be installed
+    using build time argument PREMIUM.
+    (Gitlab #8)
+
 * 2 [build] andrei
 
     Added Gitlab CI pipeline.

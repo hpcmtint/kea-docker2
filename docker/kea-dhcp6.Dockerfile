@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 # This Kea docker image provides the following functionality:
-# - running Kea DHCPv4 service
+# - running Kea DHCPv6 service
 # - running Kea control agent (exposes REST API over http)
 # - open source hooks
 # - possible to build with premium hooks
@@ -18,13 +18,13 @@ ARG PREMIUM
 
 RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     # Install curl
-    apk update && apk add --no-cache curl && \
+    apk update && apk add curl && \
     # Setup Cloudsmith repo
     curl -1sLf 'https://dl.cloudsmith.io/public/isc/kea-2-3/rsa.67D22B06FDC8FD58.key' > /etc/apk/keys/kea-2-3@isc-67D22B06FDC8FD58.rsa.pub && \
     curl -1sLf 'https://dl.cloudsmith.io/public/isc/kea-2-3/config.alpine.txt?distro=alpine&codename=v3.17' >> /etc/apk/repositories && \
     apk update && \
     # Install main Kea packaegs and supervisor
-    apk add --no-cache isc-kea-dhcp4=${VERSION} isc-kea-ctrl-agent=${VERSION} isc-kea-hooks=${VERSION} supervisor && \
+    apk add --no-cache isc-kea-dhcp6=${VERSION} isc-kea-ctrl-agent=${VERSION} isc-kea-hooks=${VERSION} supervisor && \
     # If token is provided add premium Cloudsmith repository
     if [ -n "$TOKEN" ]; then \
     curl -1sLf "https://dl.cloudsmith.io/${TOKEN}/isc/kea-2-3-prv/rsa.3ACDF039B17886F3.key" > /etc/apk/keys/kea-2-3-prv@isc-3ACDF039B17886F3.rsa.pub &&  \
@@ -62,13 +62,12 @@ RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     mv /etc/apk/repositories_backup /etc/apk/repositories && \
     # Create directory for supervisor logs
     mkdir -p /var/log/supervisor
-
 VOLUME ["/etc/kea", "/var/lib/kea/", "/etc/supervisor/conf.d/"]
 
 # 8000 ctrl agent
 # 8001 HA MT
-# 67 blq
-EXPOSE 8000-8001/tcp 67/tcp 67/udp
+# 547 blq
+EXPOSE 8000-8001/tcp 547/tcp 547/udp
 
 CMD ["supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 HEALTHCHECK CMD [ "supervisorctl", "status" ]
