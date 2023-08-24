@@ -5,6 +5,9 @@ services:
   kea4:
     image: kea-dhcp4
     restart: always
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - 192.168.50.1:8080:8080
       - 192.168.50.1:8081:8081/udp
@@ -30,6 +33,8 @@ services:
   db:
     image: postgres
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "psql -U keadb -d keadb -c 'SELECT version FROM schema_version'"]
     environment:
       POSTGRES_PASSWORD: keatest
       POSTGRES_USER: keadb
