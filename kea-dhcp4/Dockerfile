@@ -41,7 +41,7 @@ RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     apk add --no-cache \
         isc-kea-premium-cb-cmds~=${VERSION} \
         isc-kea-premium-class-cmds~=${VERSION} \
-        isc-kea-premium-host-cache~=${VERSION} \            
+        isc-kea-premium-host-cache~=${VERSION} \
         isc-kea-premium-lease-query~=${VERSION} \
         isc-kea-premium-limits~=${VERSION} \
         isc-kea-premium-subnet-cmds~=${VERSION}; \
@@ -51,7 +51,7 @@ RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     apk add --no-cache \
         isc-kea-premium-cb-cmds~=${VERSION} \
         isc-kea-premium-class-cmds~=${VERSION} \
-        isc-kea-premium-host-cache~=${VERSION} \            
+        isc-kea-premium-host-cache~=${VERSION} \
         isc-kea-premium-lease-query~=${VERSION} \
         isc-kea-premium-limits~=${VERSION} \
         isc-kea-premium-subnet-cmds~=${VERSION} \

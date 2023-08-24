@@ -3,32 +3,32 @@ volumes:
 
 services:
   kea4:
-    image: kea-dhcp4
+    image: kea-dhcp4:${VERSION}
     restart: always
     depends_on:
       db:
         condition: service_healthy
     ports:
-      - 192.168.50.1:8080:8080
-      - 192.168.50.1:8081:8081/udp
-      - 192.168.50.1:9000:9000
-      - 192.168.50.1:67:67/udp
-      - 192.168.50.1:67:67/tcp
+      - ${IP4}:8080:8080
+      - ${IP4}:8081:8081/udp
+      - ${IP4}:9000:9000
+      - ${IP4}:67:67/udp
+      - ${IP4}:67:67/tcp
     volumes:
       - type: bind
         source: ./config/kea
         target: /etc/kea
       - type: bind
-        source: ./
+        source: ./var
         target: /var/lib/kea
       - type: bind
-        source: ./../supervisord.conf
+        source: ../supervisord.conf
         target: /etc/supervisor/supervisord.conf
       - type: bind
-        source: ./../config/supervisor/kea-dhcp4.conf
+        source: ../config/supervisor/kea-dhcp4.conf
         target: /etc/supervisor/conf.d/kea-dhcp4.conf
       - type: bind
-        source: ./../config/supervisor/kea-agent.conf
+        source: ../config/supervisor/kea-agent.conf
         target: /etc/supervisor/conf.d/kea-agent.conf
   db:
     image: postgres
