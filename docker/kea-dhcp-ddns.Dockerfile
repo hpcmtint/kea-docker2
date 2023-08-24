@@ -26,8 +26,7 @@ RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     apk add --no-cache isc-kea-dhcp-ddns~=${VERSION} isc-kea-ctrl-agent~=${VERSION} supervisor && \
     # Install ddns hook which is available both in subscribers and enterprise
     if [ -n "$TOKEN" ] &&  ([ "$PREMIUM" == "SUBSCRIBERS" ] || [ "$PREMIUM" == "ENTERPRISE" ]); then \
-    curl -1sLf "https://dl.cloudsmith.io/${TOKEN}/isc/kea-2-3-prv/rsa.3ACDF039B17886F3.key" > /etc/apk/keys/kea-2-3-prv@isc-3ACDF039B17886F3.rsa.pub &&  \
-    curl -1sLf "https://dl.cloudsmith.io/${TOKEN}/isc/kea-2-3-prv/config.alpine.txt?distro=alpine&codename=v3.17" >> /etc/apk/repositories && \
+    curl -1sLf "https://dl.cloudsmith.io/${TOKEN}/isc/kea-${VERSION:0:1}-${VERSION:2:1}-prv/setup.alpine.sh" | bash && \
     apk add --no-cache \
         isc-kea-premium-gss-tsig~=${VERSION}; \
     fi && \
