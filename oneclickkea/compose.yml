@@ -1,0 +1,41 @@
+volumes:
+  database:
+
+services:
+  kea4:
+    image: kea-dhcp4
+    restart: always
+    ports:
+      - 192.168.50.1:8080:8080
+      - 192.168.50.1:8081:8081/udp
+      - 192.168.50.1:9000:9000
+      - 192.168.50.1:67:67/udp
+      - 192.168.50.1:67:67/tcp
+    volumes:
+      - type: bind
+        source: ./config/kea
+        target: /etc/kea
+      - type: bind
+        source: ./
+        target: /var/lib/kea
+      - type: bind
+        source: ./../supervisord.conf
+        target: /etc/supervisor/supervisord.conf
+      - type: bind
+        source: ./../config/supervisor/kea-dhcp4.conf
+        target: /etc/supervisor/conf.d/kea-dhcp4.conf
+      - type: bind
+        source: ./../config/supervisor/kea-agent.conf
+        target: /etc/supervisor/conf.d/kea-agent.conf
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: keatest
+      POSTGRES_USER: keadb
+    volumes:
+      - database:/var/lib/posgresql
+      - type: bind
+        source: ./initdb
+        target: /docker-entrypoint-initdb.d
+
