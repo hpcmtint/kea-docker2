@@ -1,3 +1,8 @@
+* 4 [build] Wlodek
+
+    Kea-dhcp-ddns Dockerfile added.
+    (Gitlab #10)
+
 * 3 [build] Wlodek
 
     Added dhcp4 and dhcp6 Dockerfiles each with Control
