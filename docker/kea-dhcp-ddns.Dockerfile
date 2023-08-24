@@ -18,10 +18,9 @@ ARG PREMIUM
 
 RUN cp /etc/apk/repositories /etc/apk/repositories_backup && \
     # Install curl
-    apk update && apk add --no-cache curl && \
+    apk update && apk add --no-cache curl bash && \
     # Setup Cloudsmith repo
-    curl -1sLf 'https://dl.cloudsmith.io/public/isc/kea-2-3/rsa.67D22B06FDC8FD58.key' > /etc/apk/keys/kea-2-3@isc-67D22B06FDC8FD58.rsa.pub && \
-    curl -1sLf 'https://dl.cloudsmith.io/public/isc/kea-2-3/config.alpine.txt?distro=alpine&codename=v3.17' >> /etc/apk/repositories && \
+    curl -1sLf "https://dl.cloudsmith.io/public/isc/kea-${VERSION:0:1}-${VERSION:2:1}/setup.alpine.sh" | bash && \
     apk update && \
     # Install main Kea packaegs
     apk add --no-cache isc-kea-dhcp-ddns~=${VERSION} isc-kea-ctrl-agent~=${VERSION} supervisor && \
