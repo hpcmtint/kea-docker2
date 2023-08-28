@@ -65,8 +65,10 @@ ddns:
 
 hadolint:
   allow_failure: true
+  image: hadolint/hadolint
   extends: .show-environment
   script:
-    - docker run --rm -i hadolint/hadolint < kea-dhcp4/Dockerfile
-    - docker run --rm -i hadolint/hadolint < kea-dhcp6/Dockerfile
-    - docker run --rm -i hadolint/hadolint < kea-dhcp-ddns/Dockerfile
+    # DL3018 warning: Pin versions in apk add. Instead of `apk add <package>` use `apk add <package>=<version>`
+    - hadolint --ignore DL3018 kea-dhcp4/Dockerfile
+    - hadolint --ignore DL3018 kea-dhcp6/Dockerfile
+    - hadolint --ignore DL3018 kea-dhcp-ddns/Dockerfile
