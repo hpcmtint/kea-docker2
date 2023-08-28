@@ -30,6 +30,34 @@ services:
       - type: bind
         source: ../config/supervisor/kea-agent.conf
         target: /etc/supervisor/conf.d/kea-agent.conf
+
+  kea6:
+    image: kea-dhcp6:${VERSION}
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "[${IP6}]:8081:8081/udp"
+      - "[${IP6}]:547:547/udp"
+      - "[${IP6}]:547:547/tcp"
+    volumes:
+      - type: bind
+        source: ./config/kea
+        target: /etc/kea
+      - type: bind
+        source: ./var
+        target: /var/lib/kea
+      - type: bind
+        source: ../supervisord.conf
+        target: /etc/supervisor/supervisord.conf
+      - type: bind
+        source: ../config/supervisor/kea-dhcp6.conf
+        target: /etc/supervisor/conf.d/kea-dhcp6.conf
+      - type: bind
+        source: ../config/supervisor/kea-agent.conf
+        target: /etc/supervisor/conf.d/kea-agent.conf
+
   db:
     image: postgres
     restart: always

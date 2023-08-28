@@ -16,9 +16,10 @@ shift "$(($OPTIND -1))"
 
 echo "Kea version selected $VERSION"
 docker build --tag kea-dhcp4:${VERSION} --build-arg VERSION=${VERSION} - < ../docker/kea-dhcp4.Dockerfile
+docker build --tag kea-dhcp6:${VERSION} --build-arg VERSION=${VERSION} - < ../docker/kea-dhcp6.Dockerfile
 wget https://gitlab.isc.org/isc-projects/kea/raw/Kea-${VERSION:0:5}/src/share/database/scripts/pgsql/dhcpdb_create.pgsql -O ./initdb/dhcpdb_create.sql
 
-tee "config/kea/subnets.json" > /dev/null <<EOF
+tee "config/kea/subnets4.json" > /dev/null <<EOF
 "subnet4": [
   {
   "subnet": "$SUBNET4",
@@ -32,3 +33,16 @@ tee "config/kea/subnets.json" > /dev/null <<EOF
 ]
 EOF
 
+tee "config/kea/subnets6.json" > /dev/null <<EOF
+"subnet6": [
+  {
+  "subnet": "$SUBNET6",
+  "pools": [
+    {
+      "pool": "$POOL6"
+    }
+  ],
+  "interface": "eth0"
+  }
+]
+EOF
