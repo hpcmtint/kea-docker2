@@ -54,7 +54,7 @@ Successfully built <image-id>
 Containers are using supervisor to run two processes, control agent for exposing Kea
 API channel and one kea process (kea-dhcp4, kea-dhcp6 and kea-dhcp-ddns)
 
-Each container has it's default configuration included, this is why it's possible to run it without any additional changes:
+Each container has its default configuration included, this is why it's possible to run it without any additional changes:
 
 ```shell
 sudo docker run -p host_ip:host_port:container_port kea4
