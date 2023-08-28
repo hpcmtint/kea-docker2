@@ -1,3 +1,8 @@
+* 5 [build] Wlodek
+
+    Default config files are included into containers
+    (Gitlab #10)
+
 * 4 [build] Wlodek
 
     Kea-dhcp-ddns Dockerfile added.
