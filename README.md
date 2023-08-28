@@ -21,28 +21,27 @@ You need to have Docker installed. The image can be built using the following
 command:
 
 ```shell
-docker build - < docker/kea-dhcp4.Dockerfile
+cd kea-dhcp4 && docker build -t kea4 .
 ```
 
 If user wants to install specific Kea version, not the onde defined
 in dockerfile build argument `VERSION` is required
 
 ```shell
-docker build --build-arg VERSION=2.3.8-r20230530063557 - < docker/kea-dhcp4.Dockerfile
+cd kea-dhcp4 && docker build --build-arg VERSION=2.3.8-r20230530063557 -t kea4 .
 ```
 
 If a user has access to premium packages, it should be added during the build process:
 
 ```shell
-docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> - < docker/kea-dhcp4.Dockerfile
+cd kea-dhcp4 && docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> -t kea4 . 
 ```
 
 If provided token grants access to subcribers or enterprise packages it should be specified:
 
 ```shell
-docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> --build-arg PREMIUM=ENTERPRISE - < docker/kea-dhcp4.Dockerfile
+cd kea-dhcp4 && docker build --build-arg VERSION=2.3.8-r20230530063557 --build-arg TOKEN=<TOKEN> --build-arg PREMIUM=ENTERPRISE -t kea4 . 
 ```
-
 
 This will end up with something like the following:
 
@@ -52,22 +51,34 @@ Successfully built <image-id>
 
 # Running the image
 
-At the very least, you should tweak the following:
+Containers are using supervisor to run two processes, control agent for exposing Kea
+API channel and one kea process (kea-dhcp4, kea-dhcp6 and kea-dhcp-ddns)
 
-- add a configuration (subnets and options, probably also shared networks,
-  classes and much more) to `/etc/kea/kea-dhcp4.conf`.
-- configure TLS
-- possibly configure leases, host, and/or config backends to point to specific databases
-- IP address on which Control Agent will listen to the traffic
+Each container has it's default configuration included, this is why it's possible to run it without any additional changes:
 
-Using supervisor it's possible to start dhcp and control agent in the same container:
+```shell
+sudo docker run -p host_ip:host_port:container_port kea4
+```
+
+There are two ways to change Kea configuration. Via command control channel by sending `config-set` command or by overwritting files in docker:
+
+```shell
+sudo docker run --volume=./:/etc/kea  \
+                -p host_ip:host_port:container_port <image-id>
+```
+
+or
+
+```shell
+sudo docker run --volume=./kea-dhcp4.conf:/etc/kea/kea-dhcp4.conf  \
+                -p host_ip:host_port:container_port <image-id>
+```
+
+By default containers are exposing `/var/lib/kea` so users can have easy access to leases files. Option `--volume=./:/var/lib/kea` should be added on docker startup:
 
 ```shell
 sudo docker run --volume=./config/kea:/etc/kea  \
                 --volume=./:/var/lib/kea  \
-                --volume=./supervisord.conf:/etc/supervisor/supervisord.conf \
-                --volume=./config/supervisor/kea-dhcp4.conf:/etc/supervisor/conf.d/kea-dhcp4.conf \
-                --volume=./config/supervisor/kea-agent.conf:/etc/supervisor/conf.d/kea-agent.conf \
                 -p host_ip:host_port:container_port <image-id>
 ```
 
