@@ -25,7 +25,7 @@ dhcp4:
     # Run the dhcp4 container
     - docker run -d --name kea-dhcp4 kea-dhcp4
     # Check that something was logged.
-    - sleep 1
+    - sleep 2
     - docker logs kea-dhcp4 | grep "kea-agent entered RUNNING state"
     - docker logs kea-dhcp4 | grep "kea-dhcp4 entered RUNNING state"
     # Clean up, while also checking that the container can be stopped
@@ -41,7 +41,7 @@ dhcp6:
     # Run the dhcp4 container
     - docker run -d --name kea-dhcp6 kea-dhcp6
     # Check that something was logged.
-    - sleep 1
+    - sleep 2
     - docker logs kea-dhcp6 | grep "kea-agent entered RUNNING state"
     - docker logs kea-dhcp6 | grep "kea-dhcp6 entered RUNNING state"
     # Clean up, while also checking that the container can be stopped
@@ -57,7 +57,7 @@ ddns:
     # Run the dhcp4 container
     - docker run -d --name kea-dhcp-ddns kea-dhcp-ddns
     # Check that something was logged.
-    - sleep 1
+    - sleep 2
     - docker logs kea-dhcp-ddns | grep "kea-agent entered RUNNING state"
     - docker logs kea-dhcp-ddns | grep "kea-dhcp-ddns entered RUNNING state"
     # Clean up, while also checking that the container can be stopped
