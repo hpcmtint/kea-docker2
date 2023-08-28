@@ -84,7 +84,7 @@ sudo docker run --volume=./config/kea:/etc/kea  \
 
 # OneClick Kea server
 
-OneClick script allows for easy deployment of kea-dhcp server. (Including kea-dhcp4, postgresql lease database)
+OneClick script allows for easy deployment of kea-dhcp server. (Including kea-dhcp4, kea-dhcp6 and postgresql lease database)
 
 - Edit `.env` file to set your parameters.
 - Run `./build_images.sh` to prepare kea images
