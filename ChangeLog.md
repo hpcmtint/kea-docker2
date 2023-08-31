@@ -1,7 +1,7 @@
 * 6 [build] marcing
 
     Changed cloudsmith repository instalation procedure to automatic
-    (Gitkab #18)
+    (Gitlab #18)
 
 * 5 [build] Wlodek
 
