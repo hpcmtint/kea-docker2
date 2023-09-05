@@ -1,3 +1,7 @@
+* 7 [build] marcing
+
+    Added OneClick kea server
+
 * 6 [build] marcing
 
     Changed cloudsmith repository instalation procedure to automatic
