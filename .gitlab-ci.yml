@@ -64,7 +64,7 @@ ddns:
     - docker stop kea-dhcp-ddns
 
 hadolint:
-  allow_failure: true
+  allow_failure: false
   image: hadolint/hadolint:latest-debian
   script:
     - hadolint --ignore DL3018 kea-dhcp4/Dockerfile
