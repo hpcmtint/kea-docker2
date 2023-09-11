@@ -21,15 +21,6 @@ services:
       - type: bind
         source: ./var
         target: /var/lib/kea
-      - type: bind
-        source: ../supervisord.conf
-        target: /etc/supervisor/supervisord.conf
-      - type: bind
-        source: ../config/supervisor/kea-dhcp4.conf
-        target: /etc/supervisor/conf.d/kea-dhcp4.conf
-      - type: bind
-        source: ../config/supervisor/kea-agent.conf
-        target: /etc/supervisor/conf.d/kea-agent.conf
 
   kea6:
     image: kea-dhcp6:${VERSION}
@@ -48,15 +39,6 @@ services:
       - type: bind
         source: ./var
         target: /var/lib/kea
-      - type: bind
-        source: ../supervisord.conf
-        target: /etc/supervisor/supervisord.conf
-      - type: bind
-        source: ../config/supervisor/kea-dhcp6.conf
-        target: /etc/supervisor/conf.d/kea-dhcp6.conf
-      - type: bind
-        source: ../config/supervisor/kea-agent.conf
-        target: /etc/supervisor/conf.d/kea-agent.conf
 
   db:
     image: postgres
