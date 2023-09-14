@@ -1,5 +1,5 @@
 #!/bin/sh
-source ./.env
+. ./.env
 while getopts 'v:' OPTION; do
   case "$OPTION" in
     v)
