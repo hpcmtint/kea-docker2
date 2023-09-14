@@ -1,6 +1,6 @@
 * 7 [build] marcing
 
-    Added OneClick kea server
+    Added kea-compose server
 
 * 6 [build] marcing
 
