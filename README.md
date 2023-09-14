@@ -86,8 +86,13 @@ sudo docker run --volume=./config/kea:/etc/kea  \
 
 OneClick script allows for easy deployment of kea-dhcp server. (Including kea-dhcp4, kea-dhcp6 and postgresql lease database)
 
+Please note that you need to have IPv4 and IPv6 addresses used by Kea assigned to your host.
+
+Preparation:
 - Edit `.env` file to set your parameters.
 - Run `./build_images.sh` to prepare kea images
+
+Running Kea:
 - Run `docker compose up` to run all containers
 
 
