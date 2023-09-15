@@ -15,11 +15,12 @@ done
 shift "$(($OPTIND -1))"
 
 echo "Kea version selected $VERSION"
+DIRECTORY="$PWD"
 cd ../kea-dhcp4
 docker build --tag kea-dhcp4:${VERSION} --build-arg VERSION=${VERSION} .
 cd ../kea-dhcp6
 docker build --tag kea-dhcp6:${VERSION} --build-arg VERSION=${VERSION} .
-cd ../oneclickkea
+cd "${DIRECTORY}"
 mkdir var initdb
 wget https://gitlab.isc.org/isc-projects/kea/raw/Kea-$(echo "${VERSION}" | cut -c1;).$(echo "${VERSION}" | cut -c3;).$(echo "${VERSION}" | cut -c5;)/src/share/database/scripts/pgsql/dhcpdb_create.pgsql -O ./initdb/dhcpdb_create.sql
 
